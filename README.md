@@ -14,6 +14,10 @@ Este projeto utiliza visão computacional para detectar veículos através da we
 
 Clone o repositório e instale as dependências:
 
+## Colaboradores
+github.com/VSennaa
+github.com/Nunes0220
+
 ```bash
 git clone https://github.com/VSennaa/car_sign_rec.git
 pip install -r requirements.txt
