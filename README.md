@@ -1,6 +1,6 @@
 # Detector de Placas Veiculares com OCR
 
-Este projeto utiliza visão computacional para detectar veículos através da webcam e realizar OCR (Reconhecimento Óptico de Caracteres) nas placas utilizando a biblioteca EasyOCR.
+Este projeto utiliza visão computacional para detectar veículos através da webcam e realizar OCR (Reconhecimento Óptico de Caracteres) nas placas utilizando a biblioteca EasyOCR. Foi desenvolvido para um trabalho universitário
 
 ## 📦 Requisitos
 
@@ -15,6 +15,5 @@ Este projeto utiliza visão computacional para detectar veículos através da we
 Clone o repositório e instale as dependências:
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repo.git
-cd seu-repo
+git clone https://github.com/VSennaa/car_sign_rec.git
 pip install -r requirements.txt
