@@ -1,5 +1,5 @@
 {
-    "CAMERA_RTSP_URL": "rtsp://admin:Labautomacao1@192.168.1.66/cam/realmonitor?channel=1&subtype=0",
+    "CAMERA_RTSP_URL": "rtsp://usuario:senha@ip/cam/realmonitor?channel=1&subtype=0",
 
     "MODO_OPERACAO": {
         "COMENTARIO": "DEBUG_MODE: mostra janelas de diagnóstico. USE_ADVANCED_PLATE_FINDER: True para carros reais, False para testes em tela.",
