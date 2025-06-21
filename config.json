@@ -4,7 +4,12 @@
     "MODO_OPERACAO": {
         "COMENTARIO": "DEBUG_MODE: mostra janelas de diagnóstico. USE_ADVANCED_PLATE_FINDER: True para carros reais, False para testes em tela.",
         "DEBUG_MODE": true,
-        "USE_ADVANCED_PLATE_FINDER": false
+        "USE_ADVANCED_PLATE_FINDER": true
+    },
+    
+    "PARAMETROS_AUTORIZACAO": {
+        "ARQUIVO_SERVIDORES_CSV": "servidores.csv",
+        "TOLERANCIA_MATCH": 1
     },
 
     "PARAMETROS_PERFORMANCE": {
