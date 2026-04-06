@@ -1,6 +1,9 @@
+flask
 opencv-python
 numpy
-pandas
 easyocr
 torch
-flask
+torchvision
+torchaudio
+python-Levenshtein
+pandas
