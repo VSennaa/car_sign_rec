@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Controle de Acesso - LPR</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --panel-bg: #ffffff;
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --text-color: #333333;
+            --border-color: #e0e0e0;
+            --success-color: #27ae60;
+            --danger-color: #c0392b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Layout Principal */
+        .container {
+            display: flex;
+            width: 100%;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        /* Área do Vídeo (Esquerda) */
+        .video-section {
+            flex: 2;
+            background-color: var(--panel-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .video-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .video-feed {
+            flex: 1;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Simulando o placeholder do stream do OpenCV */
+        .video-feed img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .feed-placeholder {
+            color: #7f8c8d;
+            text-align: center;
+        }
+
+        /* Painel de Configurações (Direita) */
+        .settings-section {
+            flex: 1;
+            background-color: var(--panel-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .settings-section h2 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"],
+        .form-group input[type="number"] {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .form-group small {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+        }
+
+        .btn-submit {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #2980b9;
+        }
+
+        /* Status de Conexão */
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            background-color: #f39c12; /* Amarelo (Aguardando) */
+            color: white;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="video-section">
+            <div class="video-header">
+                Monitoramento em Tempo Real - LPR
+            </div>
+            <div class="video-feed">
+                <img src="/video_feed" alt="Video Feed">
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h2>Configurações do Sistema</h2>
+            
+            <form id="configForm">
+                <div class="form-group">
+                    <label for="videoSource">Fonte de Vídeo</label>
+                    <select id="videoSource" onchange="toggleSource()">
+                        <option value="rtsp">Câmera IP (RTSP)</option>
+                        <option value="usb">Webcam USB Local</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="rtspGroup">
+                    <label for="rtspUrl">URL da Câmera (RTSP)</label>
+                    <input type="text" id="rtspUrl" placeholder="rtsp://usuario:senha@ip/stream" required>
+                    <small>Ex: rtsp://admin:123456@192.168.1.100/cam/realmonitor</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="ocrConfidence">Confiança Mínima do OCR (%)</label>
+                    <input type="number" id="ocrConfidence" min="1" max="100" value="40" required>
+                    <small>Define a certeza mínima para a IA validar o texto da placa.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="matchTolerance">Tolerância de Caracteres (Levenshtein)</label>
+                    <input type="number" id="matchTolerance" min="0" max="5" value="1" required>
+                    <small>Quantos caracteres podem estar errados na placa em relação ao CSV (0 = Exato).</small>
+                </div>
+
+                <button type="button" class="btn-submit" onclick="aplicarConfiguracoes()">Aplicar Configurações e Iniciar</button>
+
+                <div class="status-badge" id="cameraStatus">Status: Aguardando Configuração</div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Script básico para simular a interação na interface antes da integração com o Python
+        function toggleSource() {
+            const source = document.getElementById('videoSource').value;
+            const rtspGroup = document.getElementById('rtspGroup');
+            rtspGroup.style.display = (source === 'usb') ? 'none' : 'block';
+        }
+
+        function aplicarConfiguracoes() {
+            const source = document.getElementById('videoSource').value;
+            const url = document.getElementById('rtspUrl').value;
+            const status = document.getElementById('cameraStatus');
+
+            // Preparar dados para envio
+            const configData = {
+                sourceType: source,
+                rtspUrl: (source === 'rtsp') ? url : '',
+                ocrConfidence: document.getElementById('ocrConfidence').value,
+                matchTolerance: document.getElementById('matchTolerance').value
+            };
+            
+            console.log("Enviando configurações:", configData);
+            
+            // Envio real para o backend
+            fetch('/update_config', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(configData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Configurações aplicadas com sucesso!");
+                status.style.backgroundColor = "#27ae60";
+                status.innerText = "Status: Conectado (" + source + ")";
+                
+                // Forçar recarga da imagem do feed
+                const feedImg = document.querySelector('.video-feed img');
+                const timestamp = new Date().getTime();
+                feedImg.src = "/video_feed?t=" + timestamp;
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert("Erro ao aplicar configurações.");
+            });
+        }
+    </script>
+</body>
+</html>

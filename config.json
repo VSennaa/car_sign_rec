@@ -1,5 +1,5 @@
 {
-    "CAMERA_RTSP_URL": "rtsp://usuario:senha@ip/cam/realmonitor?channel=1&subtype=0",
+    "CAMERA_RTSP_URL": "rtsp://admin:soft0508@10.0.0.67:554/user=admin&password=soft0508&channel=1&stream=0.sdp?real_stream",
 
     "MODO_OPERACAO": {
         "COMENTARIO": "DEBUG_MODE: mostra janelas de diagnóstico. USE_ADVANCED_PLATE_FINDER: True para carros reais, False para testes em tela.",
