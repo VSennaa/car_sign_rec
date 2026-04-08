@@ -1,34 +1,35 @@
 {
-    "CAMERA_RTSP_URL": "rtsp://usuario:senha@ip/cam/realmonitor?channel=1&subtype=0",
-
+    "CAMERA_RTSP_URL": "C:/Users/Sena/Downloads/YTDown.com_YouTube_BYD-SONG-PLUS-PREMIUM-VALE-R-300-MIL_Media_5c_0dwFTnJY_001_1080p.mp4",
     "MODO_OPERACAO": {
-        "COMENTARIO": "DEBUG_MODE: mostra janelas de diagnóstico. USE_ADVANCED_PLATE_FINDER: True para carros reais, False para testes em tela.",
-        "DEBUG_MODE": true,
+        "COMENTARIO": "DEBUG_MODE: mostra janelas de diagn\u00f3stico. USE_ADVANCED_PLATE_FINDER: True para carros reais, False para testes em tela.",
+        "DEBUG_MODE": false,
         "USE_ADVANCED_PLATE_FINDER": true
     },
-    
     "PARAMETROS_AUTORIZACAO": {
         "ARQUIVO_SERVIDORES_CSV": "servidores.csv",
         "TOLERANCIA_MATCH": 1
     },
-
     "PARAMETROS_PERFORMANCE": {
         "FRAME_SKIP": 5,
         "FRAME_WIDTH": 800
     },
-
     "PARAMETROS_DETECCAO": {
-        "CONFIDENCE_THRESHOLD": 0.5,
+        "CONFIDENCE_THRESHOLD": 0.3,
         "OCR_CONFIDENCE_THRESHOLD": 0.4,
         "COOLDOWN_SEGUNDOS": 10
     },
-
     "PARAMETROS_DETECTOR_AVANCADO": {
-        "COMENTARIO": "Ajustes finos para o modo de produção (carros reais).",
-        "GAUSSIAN_BLUR_KERNEL": [5, 5],
-        "MIN_ASPECT_RATIO": 2.0,
-        "MAX_ASPECT_RATIO": 4.5,
+        "COMENTARIO": "Ajustes finos para o modo de produ\u00e7\u00e3o (carros reais).",
+        "GAUSSIAN_BLUR_KERNEL": [
+            3,
+            3
+        ],
+        "MIN_ASPECT_RATIO": 1.5,
+        "MAX_ASPECT_RATIO": 6.0,
         "MIN_PLATE_WIDTH": 60,
-        "MIN_PLATE_HEIGHT": 15
+        "MIN_PLATE_HEIGHT": 10,
+        "CANNY_LOW": 50,
+        "CANNY_HIGH": 200,
+        "MORPH_KERNEL_SIZE": 3
     }
 }
